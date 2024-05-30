@@ -8,12 +8,15 @@ Si tu proyecto es una aplicación Node.js y estás usando Jest para las pruebas,
 # Salir inmediatamente si un comando falla
 set -e
 
-# Instalar dependencias
+echo "Instalando dependencias..."
 npm install
 
-# Ejecutar pruebas
+echo "Ejecutando pruebas..."
 npm test
+
+echo "Pruebas completadas."
 ```
+
 
 ### Ejemplo de `run_tests.sh` para un Proyecto Python
 
@@ -90,20 +93,3 @@ composer install
 
 2. **Configura tu pipeline para usar el script:**
    - Asegúrate de que tu archivo de configuración de CI (por ejemplo, `.gitlab-ci.yml`) esté configurado para ejecutar `run_tests.sh` como parte del trabajo de prueba.
-
-### Ejemplo Completo de `run_tests.sh` en un Proyecto Node.js
-
-```sh
-#!/bin/sh
-
-# Salir inmediatamente si un comando falla
-set -e
-
-echo "Instalando dependencias..."
-npm install
-
-echo "Ejecutando pruebas..."
-npm test
-
-echo "Pruebas completadas."
-```
