@@ -64,7 +64,7 @@ Regla del repositorio que impide integrar cambios a `main` si el pipeline no est
 ## CONOCE EL TALLER
 
 La aplicación es intencionalmente pequeña: una **calculadora de la nota definitiva** con tres cortes (30% - 30% - 40%).
-Lo importante del taller es el **pipeline**, no el dominio.
+El foco del taller es el **pipeline**.
 
 ### Estructura del Proyecto
 
@@ -111,7 +111,7 @@ Abre [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Las piezas clave so
 | `actions/setup-java@v6` + `cache: maven` | Instala Java 17 y guarda las dependencias de Maven entre ejecuciones para que el build sea más rápido. |
 | `mvn -B verify` | Compila, ejecuta las pruebas, genera el reporte de JaCoCo y **verifica el umbral de cobertura**. Si algo falla, el paso falla y el pipeline queda en rojo. |
 | `Resumen de cobertura` | Escribe el porcentaje de cobertura en el resumen de la ejecución. |
-| `actions/upload-artifact@v7` con `if: always()` | Publica los reportes de pruebas y cobertura **incluso si el build falló**, que es justo cuando más se necesitan. |
+| `actions/upload-artifact@v7` con `if: always()` | Publica los reportes de pruebas y cobertura **incluso si el build falló**, para poder revisar la causa del fallo. |
 
 > **Sobre las versiones de las actions:** usa siempre la versión vigente de cada action. Las versiones viejas
 > (`@v2`, `@v3`, `@v4`) corren sobre versiones de Node.js que GitHub ya retiró de sus runners.
@@ -244,7 +244,7 @@ Nuevo requisito: *"Como estudiante, quiero saber qué nota necesito en el tercer
 
 ### Paso 5: Protege la rama main
 
-Un pipeline que nadie respeta no sirve de mucho. Haz que GitHub **impida** integrar código que rompa el build:
+Configura GitHub para que **impida** integrar código que rompa el build:
 
 1. En tu fork: **Settings → Rules → Rulesets → New ruleset → New branch ruleset**.
 2. Nombre: `proteger-main`. *Enforcement status*: **Active**. *Target branches*: **Include default branch**.
@@ -378,7 +378,7 @@ Estructura mínima sugerida del Wiki:
 
 ## Propósito del taller
 
-En este taller el pipeline deja de ser un concepto de diapositiva y se convierte en una **herramienta del equipo**: cada commit se compila y se prueba automáticamente, la cobertura mínima se verifica sin intervención humana y la rama principal queda protegida.
+En este taller se configura un pipeline de CI para el equipo: cada commit se compila y se prueba automáticamente, la cobertura mínima se verifica sin intervención manual y la rama principal queda protegida.
 
 A través del caso `CalculadoraNotas` se conectan las prácticas ya vistas en el curso (**TDD**, **pruebas unitarias**, **calidad del código**) con la automatización que exige un proceso **DevOps**, preparando el terreno para contenerizar, asegurar y desplegar el proyecto.
 
@@ -424,7 +424,7 @@ Checklist para el Proyecto 3 antes de la siguiente clase:
 ### Rama protegida
 
 - **Qué es:** una regla del repositorio que exige Pull Request y pipeline en verde para integrar a `main`.
-- **Para qué sirve:** convierte el pipeline en una **regla del equipo**, no en una sugerencia.
+- **Para qué sirve:** garantiza que ningún cambio llegue a `main` sin pasar el pipeline.
 
 ### GitHub Actions vs. GitLab CI
 
