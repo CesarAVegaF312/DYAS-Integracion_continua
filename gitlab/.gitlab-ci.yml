@@ -1,0 +1,45 @@
+# Equivalente en GitLab CI del workflow .github/workflows/ci.yml
+# GitLab solo lee este archivo desde la RAÍZ del repositorio: cópialo allí para usarlo.
+
+# Imagen Docker donde corren los jobs. Sin esta línea, el job depende de la imagen
+# por defecto del runner, que puede no tener Java ni Maven.
+image: maven:3.9-eclipse-temurin-17
+
+variables:
+  # Guardar el repositorio local de Maven dentro del proyecto para poder cachearlo
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+
+cache:
+  key:
+    files:
+      - pom.xml
+  paths:
+    - .m2/repository
+
+stages:
+  - build
+  - test
+
+compilar:
+  stage: build
+  script:
+    - mvn -B compile
+
+pruebas:
+  stage: test
+  script:
+    # verify = pruebas + reporte JaCoCo + verificación del umbral de cobertura (80%)
+    - mvn -B verify
+  after_script:
+    # Imprime la cobertura en el log para que GitLab la lea con la expresión de "coverage"
+    - >
+      [ -f target/site/jacoco/jacoco.csv ] &&
+      awk -F, 'NR > 1 { p += $8; c += $9 } END { if (p + c > 0) printf "Cobertura de lineas: %.1f%%\n", c * 100 / (p + c) }'
+      target/site/jacoco/jacoco.csv || true
+  coverage: '/Cobertura de lineas: (\d+\.\d+)%/'
+  artifacts:
+    when: always
+    reports:
+      junit: target/surefire-reports/TEST-*.xml
+    paths:
+      - target/site/jacoco/
