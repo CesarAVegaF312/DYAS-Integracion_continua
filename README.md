@@ -387,23 +387,25 @@ A través del caso `CalculadoraNotas` se conectan las prácticas ya vistas en el
 ## Cómo usar esta guía para tu proyecto
 
 1. **Copia el workflow** a `.github/workflows/ci.yml` del repositorio del proyecto y ajusta el paso de instalación a tu lenguaje (ver [`otros-lenguajes`](otros-lenguajes/README.md)).
-2. **Configura el umbral del 80%** en tu herramienta de build (JaCoCo, `--cov-fail-under`, `coverageThreshold`…).
+2. **Configura el umbral de cobertura** en tu herramienta de build (JaCoCo, `--cov-fail-under`, `coverageThreshold`…). El enunciado del Proyecto 3 exige **al menos 70 % de líneas en el dominio**; el equipo puede definir un umbral mayor.
 3. **Publica los reportes** de pruebas y cobertura como artefactos: son evidencia para el informe final.
-4. **Protege `main`** con un ruleset que exija el pipeline en verde.
+4. **Protege `main`** con un ruleset que exija Pull Request, la aprobación de otro integrante y el pipeline en verde.
 5. **Trabaja con Pull Requests**: cada integrante integra sus cambios mediante PR revisado y con CI en verde.
 
-Checklist para el Proyecto 3 antes de la siguiente clase:
+Checklist para el Proyecto 3 antes de la siguiente clase (sección 2 del enunciado):
 
 - [ ] Un workflow que corra **en cada push y en cada Pull Request**.
-- [ ] Build + pruebas unitarias ejecutándose en el pipeline.
-- [ ] Umbral de cobertura del **80%** que haga fallar el build.
+- [ ] Build, pruebas unitarias y pruebas de integración del Corte 2 ejecutándose en el pipeline.
+- [ ] Umbral de cobertura del dominio de **al menos 70 %** que haga fallar el build.
 - [ ] Reportes de pruebas y cobertura publicados como artefactos.
-- [ ] La rama `main` protegida: no se integra sin pipeline en verde.
+- [ ] Caché de dependencias (el pipeline de integración debe tardar menos de 10 minutos).
+- [ ] La rama `main` protegida: Pull Request obligatorio, revisión aprobada por otro integrante y checks en verde.
+- [ ] Badge de estado del pipeline en el README.
 
 ---
 
 > **Resultado esperado:**
-> Al finalizar este taller, cada equipo contará con un **pipeline de CI funcionando en el repositorio de su proyecto**, que ejecuta las pruebas en cada commit, exige una **cobertura mínima del 80%** y protege la rama principal, listo para incorporar en las siguientes sesiones la **contenerización (Docker)**, los **escaneos de seguridad (DevSecOps)** y el **despliegue continuo (CD)**.
+> Al finalizar este taller, cada equipo contará con un **pipeline de CI funcionando en el repositorio de su proyecto**, que ejecuta las pruebas en cada commit, exige una **cobertura mínima** que rompe el build y protege la rama principal, listo para incorporar en las siguientes sesiones la **contenerización (Docker)**, los **escaneos de seguridad (DevSecOps)** y el **despliegue continuo (CD)**.
 
 ---
 

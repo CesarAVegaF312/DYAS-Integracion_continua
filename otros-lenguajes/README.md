@@ -32,11 +32,11 @@ jobs:
       - run: npm test -- --coverage   # Jest; con Mocha usa nyc o c8 para la cobertura
 ```
 
-Umbral de cobertura con Jest (`package.json`):
+Umbral de cobertura con Jest (`package.json`). El Proyecto 3 exige al menos 70 % de líneas en el dominio:
 
 ```json
 "jest": {
-  "coverageThreshold": { "global": { "lines": 80 } }
+  "coverageThreshold": { "global": { "lines": 70 } }
 }
 ```
 
@@ -60,7 +60,7 @@ jobs:
           python-version: '3.13'
           cache: pip
       - run: pip install -r requirements.txt pytest pytest-cov
-      - run: pytest --cov=. --cov-fail-under=80   # falla si la cobertura baja del 80%
+      - run: pytest --cov=. --cov-fail-under=70   # falla si la cobertura baja del 70 %
 ```
 
 ## PHP (PHPUnit)
