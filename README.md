@@ -1,7 +1,7 @@
 # Taller de Integración Continua con GitHub Actions
 
 Este taller tiene como objetivo aprender a **configurar, ejecutar e interpretar un pipeline de Integración Continua (CI)** que, en cada commit, compile el proyecto, ejecute las pruebas automatizadas y **bloquee el cambio si la calidad no cumple el umbral acordado**.
-Es la base del pipeline que exige la **entrega 3 del proyecto del curso**: en las siguientes sesiones se le agregarán Docker, escaneos de seguridad y despliegue.
+Es la base del pipeline que exige la **entrega 3 del proyecto del curso**, al que después se le agregan la construcción de la imagen Docker, los escaneos de seguridad y el despliegue.
 
 ---
 
@@ -392,7 +392,7 @@ A través del caso `CalculadoraNotas` se conectan las prácticas ya vistas en el
 4. **Protege `main`** con un ruleset que exija Pull Request, la aprobación de otro integrante y el pipeline en verde.
 5. **Trabaja con Pull Requests**: cada integrante integra sus cambios mediante PR revisado y con CI en verde.
 
-Checklist para el Proyecto 3 antes de la siguiente clase (sección 2 del enunciado):
+Checklist para el Proyecto 3 (sección 2 del enunciado):
 
 - [ ] Un workflow que corra **en cada push y en cada Pull Request**.
 - [ ] Build, pruebas unitarias y pruebas de integración del Corte 2 ejecutándose en el pipeline.
@@ -405,7 +405,7 @@ Checklist para el Proyecto 3 antes de la siguiente clase (sección 2 del enuncia
 ---
 
 > **Resultado esperado:**
-> Al finalizar este taller, cada equipo contará con un **pipeline de CI funcionando en el repositorio de su proyecto**, que ejecuta las pruebas en cada commit, exige una **cobertura mínima** que rompe el build y protege la rama principal, listo para incorporar en las siguientes sesiones la **contenerización (Docker)**, los **escaneos de seguridad (DevSecOps)** y el **despliegue continuo (CD)**.
+> Al finalizar este taller, cada equipo contará con un **pipeline de CI funcionando en el repositorio de su proyecto**, que ejecuta las pruebas en cada commit, exige una **cobertura mínima** que rompe el build y protege la rama principal, listo para incorporar la **contenerización (Docker)**, los **escaneos de seguridad (DevSecOps)** y el **despliegue continuo (CD)**.
 
 ---
 
