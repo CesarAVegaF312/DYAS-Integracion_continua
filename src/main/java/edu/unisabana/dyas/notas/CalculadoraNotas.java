@@ -43,7 +43,7 @@ public class CalculadoraNotas {
                 .add(validar(corte2, "corte 2").multiply(PESO_CORTE_2));
         // CEILING: si se redondeara hacia abajo, la nota "necesaria" podría no alcanzar para aprobar.
         BigDecimal necesaria = NOTA_APROBATORIA.subtract(acumulado)
-                .divide(PESO_CORTE_3, 1, RoundingMode.CEILING);
+                .divide(PESO_CORTE_3, 1, RoundingMode.HALF_UP);
         if (necesaria.compareTo(NOTA_MAXIMA) > 0) {
             throw new IllegalStateException(
                     "Ya no es posible aprobar: se necesitaría " + necesaria + " en el tercer corte");
