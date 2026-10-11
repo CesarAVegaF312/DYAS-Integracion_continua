@@ -12,20 +12,35 @@ on:
 permissions:
   contents: read
 
+# Si llega un push nuevo a la misma rama mientras el pipeline anterior sigue corriendo,
+# se cancela el anterior: solo importa el resultado del último commit.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-y-pruebas:
-    name: Build, pruebas y cobertura
+    name: Pruebas en Java ${{ matrix.java }}
     runs-on: ubuntu-latest
+    # El Proyecto 3 exige que el pipeline de integración tarde menos de 10 minutos.
+    timeout-minutes: 10
+
+    # Matriz: el mismo job corre en paralelo con Java 17 (la versión del pom) y Java 21 (LTS siguiente).
+    # fail-fast: false -> si una versión falla, la otra termina igual y se ve en qué versión está el problema.
+    strategy:
+      fail-fast: false
+      matrix:
+        java: ['17', '21']
 
     steps:
       - name: Descargar el código
         uses: actions/checkout@v7
 
-      - name: Instalar Java 17 (con caché de dependencias Maven)
+      - name: Instalar Java ${{ matrix.java }} (con caché de dependencias Maven)
         uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: ${{ matrix.java }}
           cache: maven
 
       # verify = compilar + pruebas unitarias + reporte JaCoCo + verificar umbral de cobertura.
@@ -38,21 +53,37 @@ jobs:
         run: |
           csv=target/site/jacoco/jacoco.csv
           if [ -f "$csv" ]; then
-            awk -F, 'NR > 1 { perdidas += $8; cubiertas += $9 }
+            awk -F, -v java="${{ matrix.java }}" 'NR > 1 { perdidas += $8; cubiertas += $9 }
                      END { total = perdidas + cubiertas;
-                           if (total > 0) printf "### Cobertura de líneas: %.1f%% (%d de %d)\n", cubiertas * 100 / total, cubiertas, total }' \
+                           if (total > 0) printf "### Java %s - Cobertura de líneas: %.1f%% (%d de %d)\n", java, cubiertas * 100 / total, cubiertas, total }' \
               "$csv" >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "### No se generó reporte de cobertura (¿falló la compilación o las pruebas?)" >> "$GITHUB_STEP_SUMMARY"
+            echo "### Java ${{ matrix.java }} - No se generó reporte de cobertura (¿falló la compilación o las pruebas?)" >> "$GITHUB_STEP_SUMMARY"
           fi
 
       # if: always() -> se suben los reportes incluso si las pruebas fallaron (para poder revisar la causa del fallo).
+      # El nombre lleva la versión de Java porque dos jobs de la matriz no pueden subir artefactos con el mismo nombre.
       - name: Publicar reportes de pruebas y cobertura
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: reportes
+          name: reportes-java-${{ matrix.java }}
           path: |
             target/surefire-reports/
             target/site/jacoco/
           if-no-files-found: ignore
+
+  # Con matriz, los checks se llaman "Pruebas en Java 17" y "Pruebas en Java 21": si se agrega o quita una
+  # versión, cambian los nombres. Este job resume la matriz en UN check con nombre fijo, que es el que
+  # exige el ruleset de main. Corre siempre (if: always()) para que también reporte cuando la matriz falla.
+  resultado:
+    name: Build, pruebas y cobertura
+    needs: build-y-pruebas
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Verificar que todas las versiones de Java pasaron
+        run: |
+          echo "Resultado de la matriz: ${{ needs.build-y-pruebas.result }}"
+          test "${{ needs.build-y-pruebas.result }}" = "success"
