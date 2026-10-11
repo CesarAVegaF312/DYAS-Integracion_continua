@@ -1,5 +1,10 @@
 # Taller de Integración Continua con GitHub Actions
 
+[![CI](https://github.com/federicovaldez14/DAYS-Integracion_continua/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/federicovaldez14/DAYS-Integracion_continua/actions/workflows/ci.yml)
+
+> **Desarrollo del taller:** Federico Valdez Muñoz — federicovamu@unisabana.edu.co (ver [`integrantes.txt`](integrantes.txt)).
+> La documentación, las evidencias y la reflexión están en el **[Wiki del repositorio](https://github.com/federicovaldez14/DAYS-Integracion_continua/wiki)**.
+
 Este taller tiene como objetivo aprender a **configurar, ejecutar e interpretar un pipeline de Integración Continua (CI)** que, en cada commit, compile el proyecto, ejecute las pruebas automatizadas y **bloquee el cambio si la calidad no cumple el umbral acordado**.
 Es la base del pipeline que exige la **entrega 3 del proyecto del curso**, al que después se le agregan la construcción de la imagen Docker, los escaneos de seguridad y el despliegue.
 
