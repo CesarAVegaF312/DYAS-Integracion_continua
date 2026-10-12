@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Calcula la nota definitiva de una asignatura con tres cortes (30% - 30% - 40%).
+ * Calcula la nota definitiva de una asignatura con tres cortes (30% - 30% -
+ * 40%).
  *
  * Reglas:
  * - Cada nota debe estar entre 0.0 y 5.0.
@@ -25,12 +26,27 @@ public class CalculadoraNotas {
         BigDecimal definitiva = validar(corte1, "corte 1").multiply(PESO_CORTE_1)
                 .add(validar(corte2, "corte 2").multiply(PESO_CORTE_2))
                 .add(validar(corte3, "corte 3").multiply(PESO_CORTE_3));
-        // BigDecimal evita errores de punto flotante: con double, 3.05 puede quedar en 3.0499999...
+        // BigDecimal evita errores de punto flotante: con double, 3.05 puede quedar en
+        // 3.0499999...
         return definitiva.setScale(1, RoundingMode.HALF_UP).doubleValue();
     }
 
     public boolean aprueba(double definitiva) {
         return validar(definitiva, "definitiva").compareTo(NOTA_APROBATORIA) >= 0;
+    }
+
+    public double notaNecesariaTercerCorte(double corte1, double corte2) {
+        BigDecimal necesaria = NOTA_APROBATORIA
+                .subtract(validar(corte1, "corte 1").multiply(PESO_CORTE_1))
+                .subtract(validar(corte2, "corte 2").multiply(PESO_CORTE_2))
+                .divide(PESO_CORTE_3, 1, RoundingMode.CEILING);
+        if (necesaria.compareTo(NOTA_MAXIMA) > 0) {
+            throw new IllegalStateException("Ya no es posible aprobar: se necesitaría " + necesaria);
+        }
+        if (necesaria.compareTo(NOTA_MINIMA) < 0) {
+            return 0.0;
+        }
+        return necesaria.doubleValue();
     }
 
     private BigDecimal validar(double nota, String nombre) {
