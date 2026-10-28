@@ -134,8 +134,8 @@ Abre [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Las piezas clave so
 3. Clónalo en tu máquina:
 
    ```sh
-   git clone https://github.com/<tu-usuario>/DAYS-Integracion_continua.git
-   cd DAYS-Integracion_continua
+   git clone https://github.com/<tu-usuario>/DYAS-Integracion_continua.git
+   cd DYAS-Integracion_continua
    ```
 
 4. (Opcional) Corre localmente lo mismo que va a correr el pipeline:
