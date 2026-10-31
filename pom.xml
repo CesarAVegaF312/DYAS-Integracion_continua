@@ -10,7 +10,7 @@
   <name>Taller de Integración Continua - Calculadora de notas</name>
 
   <properties>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!-- Umbral mínimo de cobertura de líneas de este taller (el Proyecto 3 exige al menos 70% en el dominio) -->
     <jacoco.cobertura.minima>0.80</jacoco.cobertura.minima>
