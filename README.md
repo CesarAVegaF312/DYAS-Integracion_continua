@@ -108,7 +108,7 @@ Abre [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Las piezas clave so
 | `permissions: contents: read` | Mínimo privilegio: el pipeline solo puede leer el código. |
 | `runs-on: ubuntu-latest` | **Dónde** corre: una máquina virtual nueva en cada ejecución. |
 | `actions/checkout@v7` | Descarga el código del commit que disparó el pipeline. |
-| `actions/setup-java@v6` + `cache: maven` | Instala Java 17 y guarda las dependencias de Maven entre ejecuciones para que el build sea más rápido. |
+| `actions/setup-java@v6` + `cache: maven` | Instala Java 21 y guarda las dependencias de Maven entre ejecuciones para que el build sea más rápido. |
 | `mvn -B verify` | Compila, ejecuta las pruebas, genera el reporte de JaCoCo y **verifica el umbral de cobertura**. Si algo falla, el paso falla y el pipeline queda en rojo. |
 | `Resumen de cobertura` | Escribe el porcentaje de cobertura en el resumen de la ejecución. |
 | `actions/upload-artifact@v7` con `if: always()` | Publica los reportes de pruebas y cobertura **incluso si el build falló**, para poder revisar la causa del fallo. |
@@ -124,7 +124,7 @@ Abre [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Las piezas clave so
 
 - Cuenta de GitHub.
 - Git.
-- Opcional, para correr las pruebas en tu máquina: **JDK 17 o superior** y **Maven 3.9**.
+- Opcional, para correr las pruebas en tu máquina: **JDK 21** y **Maven 3.9**.
 
 ### Paso 1: Crea tu copia del repositorio
 
@@ -255,7 +255,7 @@ Configura GitHub para que **impida** integrar código que rompa el build:
 
 ### Retos opcionales
 
-1. **Matriz de versiones:** usa `strategy.matrix` para probar con Java 17 y Java 21 en paralelo.
+1. **Matriz de versiones:** usa `strategy.matrix` para probar con Java 21 y Java 25 en paralelo.
 2. **Badge:** agrega al README la insignia del estado del pipeline
    (`https://github.com/<usuario>/<repo>/actions/workflows/ci.yml/badge.svg`).
 3. **GitLab CI:** sigue la guía de la sección siguiente y compara la sintaxis con la de GitHub Actions.
@@ -279,7 +279,7 @@ Equivalencias principales:
 |---|---|
 | `.github/workflows/*.yml` | `.gitlab-ci.yml` en la raíz |
 | `jobs` + `needs` | `stages` + jobs |
-| `runs-on: ubuntu-latest` + `setup-java` | `image: maven:3.9-eclipse-temurin-17` |
+| `runs-on: ubuntu-latest` + `setup-java` | `image: maven:3.9-eclipse-temurin-21` |
 | `cache: maven` | `cache:` |
 | `actions/upload-artifact` | `artifacts:` |
 

@@ -3,7 +3,7 @@
 
 # Imagen Docker donde corren los jobs. Sin esta línea, el job depende de la imagen
 # por defecto del runner, que puede no tener Java ni Maven.
-image: maven:3.9-eclipse-temurin-17
+image: maven:3.9-eclipse-temurin-21
 
 variables:
   # Guardar el repositorio local de Maven dentro del proyecto para poder cachearlo
